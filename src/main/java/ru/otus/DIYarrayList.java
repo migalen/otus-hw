@@ -1,6 +1,7 @@
 package ru.otus;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class DIYarrayList<T> implements List<T> {
 
@@ -10,6 +11,7 @@ public class DIYarrayList<T> implements List<T> {
 
     public DIYarrayList(int size) {
         this.array = new Object[size];
+        this.pointer = size;
     }
 
     public DIYarrayList() {
@@ -41,13 +43,16 @@ public class DIYarrayList<T> implements List<T> {
 
     @Override
     public int size() {
-        return array.length;
+        return pointer;
     }
-
 
     @Override
     public Object[] toArray() {
-        return Arrays.copyOf(array, size());
+        Object[] newArray = new Object[pointer];
+        IntStream.range(0, pointer).forEach((x) -> {
+            newArray[x] = array[x];
+        });
+        return newArray;
     }
 
     @Override
