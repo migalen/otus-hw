@@ -1,4 +1,4 @@
-package src.main.java.ru.otus;
+package ru.otus;
 
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Constructor;

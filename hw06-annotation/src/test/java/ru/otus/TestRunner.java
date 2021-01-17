@@ -1,10 +1,10 @@
-package src.test.java.ru.otus;
+package ru.otus;
 
-import src.main.java.ru.otus.TestFrameworkCore;
-import src.test.java.ru.otus.tests.AfterFailureSuite;
-import src.test.java.ru.otus.tests.BeforeFailureSuite;
-import src.test.java.ru.otus.tests.TestFailureSuite;
-import src.test.java.ru.otus.tests.TestSuccessfulSuite;
+import ru.otus.TestFrameworkCore;
+import ru.otus.tests.AfterFailureSuite;
+import ru.otus.tests.BeforeFailureSuite;
+import ru.otus.tests.TestFailureSuite;
+import ru.otus.tests.TestSuccessfulSuite;
 
 public class TestRunner {
 

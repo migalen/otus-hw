@@ -1,8 +1,8 @@
-package src.test.java.ru.otus.tests;
+package ru.otus.tests;
 
-import src.main.java.ru.otus.annotations.After;
-import src.main.java.ru.otus.annotations.Before;
-import src.main.java.ru.otus.annotations.Test;
+import ru.otus.annotations.After;
+import ru.otus.annotations.Before;
+import ru.otus.annotations.Test;
 
 public class AfterFailureSuite {
 
