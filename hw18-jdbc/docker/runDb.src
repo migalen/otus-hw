@@ -1,6 +1,6 @@
 docker run --rm --name pg-docker \
--e POSTGRES_PASSWORD=pwd \
--e POSTGRES_USER=usr \
--e POSTGRES_DB=demoDB \
+-e POSTGRES_USER=migal_en \
+-e POSTGRES_PASSWORD=super_password \
+-e POSTGRES_DB=HW \
 -p 5432:5432 \
 postgres:12
