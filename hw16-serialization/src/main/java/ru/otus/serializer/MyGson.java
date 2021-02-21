@@ -83,7 +83,7 @@ public class MyGson {
     }
 
     private boolean isString(Object obj) {
-        if (obj instanceof String) {
+        if (obj instanceof String || obj instanceof Character) {
             return true;
         }
         return false;
