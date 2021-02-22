@@ -1,6 +1,0 @@
-plugins {
-  //support Idea IDE
-  id 'java'
-  id 'idea'
-}
-
