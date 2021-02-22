@@ -1,4 +1,4 @@
 //user manual at https://docs.gradle.org/6.1.1/userguide/multi_project_builds.html
 
 rootProject.name = 'otusJava'
-include 'hw01-gradle', 'hw03-collections', 'hw06-annotations', 'hw10-aop', 'hw15-structural_patterns'
+include 'hw01-gradle', 'hw03-collections', 'hw06-annotations', 'hw10-aop', 'hw15-structural_patterns', 'hw21_cache'
