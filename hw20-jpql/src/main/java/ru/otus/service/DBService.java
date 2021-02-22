@@ -1,5 +1,7 @@
 package ru.otus.service;
 
+import ru.otus.model.Unique;
+
 import java.util.Optional;
 
 /**
@@ -8,9 +10,9 @@ import java.util.Optional;
  * @param <T> entity
  * @param <K> primary key type
  */
-public interface DBServiceClient<T, K> {
+public interface DBService<T extends Unique<K>, K> {
 
-    K saveEntity(T entity);
+    K save(T entity);
 
-    Optional<T> getEntityById(K id);
+    Optional<T> getById(K id);
 }

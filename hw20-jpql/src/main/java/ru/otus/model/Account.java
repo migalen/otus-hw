@@ -1,13 +1,26 @@
 package ru.otus.model;
 
-import ru.otus.annotaion.Id;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-public class Account {
+@Entity
+@Table(name = "account")
+public class Account implements Unique<String>{
 
     @Id
-    private final String id;
-    private final String type;
-    private final double rest;
+    @Column(name = "id")
+    private String id;
+
+    @Column(name = "type")
+    private String type;
+
+    @Column(name = "rest")
+    private double rest;
+
+    public Account() {
+    }
 
     public Account(String id, String type, double rest) {
         this.id = id;
@@ -15,16 +28,29 @@ public class Account {
         this.rest = rest;
     }
 
+    @Override
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getType() {
         return type;
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public double getRest() {
         return rest;
+    }
+
+    public void setRest(double rest) {
+        this.rest = rest;
     }
 
     @Override

@@ -1,30 +1,86 @@
 package ru.otus.model;
 
-import ru.otus.annotaion.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Client {
+@Entity
+@Table(name = "client")
+public class Client implements Unique<Long> {
 
     @Id
-    private final long id;
-    private final String name;
-    private final int age;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-    public Client(long id, String name, int age) {
-        this.id = id;
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "age")
+    private int age;
+
+    @OneToOne(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private AddressDataSet address;
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PhoneDataSet> phones = new ArrayList<>();
+
+    public Client() {
+    }
+
+    public Client(String name, int age) {
         this.name = name;
         this.age = age;
     }
 
-    public long getId() {
+    @Override
+    public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getAge() {
         return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public AddressDataSet getAddress() {
+        return address;
+    }
+
+    public void setAddress(AddressDataSet address) {
+        this.address = address;
+    }
+
+    public List<PhoneDataSet> getPhones() {
+        return phones;
+    }
+
+    public void setPhones(List<PhoneDataSet> phones) {
+        this.phones = phones;
     }
 
     @Override

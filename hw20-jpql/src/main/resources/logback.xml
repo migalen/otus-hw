@@ -29,9 +29,12 @@
         </encoder>
     </appender>
 
-    <logger name="ru.otus" level="TRACE">
+    <logger name="ru.skubatko.dev" level="TRACE">
         <appender-ref ref="FILE-ROLLING" />
     </logger>
+
+    <logger name="org.hibernate" level="ERROR" />
+    <logger name="ch.qos.logback" level="ERROR" />
 
     <root level="INFO">
         <appender-ref ref="CONSOLE" />

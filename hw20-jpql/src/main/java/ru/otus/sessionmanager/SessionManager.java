@@ -8,6 +8,7 @@ public interface SessionManager extends AutoCloseable {
 
     void rollbackSession();
 
+    @Override
     void close();
 
     DatabaseSession getCurrentSession();
