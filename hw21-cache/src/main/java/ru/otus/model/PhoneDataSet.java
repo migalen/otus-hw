@@ -2,7 +2,6 @@ package ru.otus.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,7 +21,7 @@ public class PhoneDataSet implements Unique<Long> {
     @Column(name = "number")
     private String number;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 

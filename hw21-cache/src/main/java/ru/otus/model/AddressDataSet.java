@@ -23,7 +23,7 @@ public class AddressDataSet implements Unique<Long> {
     private String street;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
     private Client client;
 
     public AddressDataSet() {

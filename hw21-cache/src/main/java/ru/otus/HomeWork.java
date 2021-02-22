@@ -1,17 +1,19 @@
 package ru.otus;
 
+import ru.otus.cachehw.HwCache;
+import ru.otus.cachehw.HwListener;
+import ru.otus.cachehw.MyCache;
+import ru.otus.dao.AccountDao;
 import ru.otus.dao.ClientDao;
 import ru.otus.dao.Dao;
 import ru.otus.flyway.MigrationsExecutorFlyway;
 import ru.otus.hibernate.HibernateUtils;
 import ru.otus.hibernate.sessionmanager.SessionManagerHibernate;
-import ru.otus.dao.AccountDao;
 import ru.otus.model.Account;
 import ru.otus.model.AddressDataSet;
 import ru.otus.model.Client;
 import ru.otus.model.PhoneDataSet;
 import ru.otus.service.DBService;
-import ru.otus.service.DbServiceClientImpl;
 import ru.otus.service.DbServiceImpl;
 
 import org.hibernate.SessionFactory;
@@ -30,6 +32,7 @@ public class HomeWork {
     private static final Logger log = LoggerFactory.getLogger(HomeWork.class);
 
     public static void main(String[] args) {
+
 // Общая часть
         Configuration configuration = new Configuration().configure(HIBERNATE_CFG_FILE);
 
@@ -45,17 +48,19 @@ public class HomeWork {
 
 // Работа с клиентами
         Dao<Client, Long> clientDao = new ClientDao(sessionManager);
-        DBService<Client, Long> dbServiceClient = new DbServiceClientImpl(clientDao);
 
-        var aClient = new Client("Ujin", 29);
-        aClient.setAddress(new AddressDataSet("Zipovskay street", aClient));
-        var p1 = new PhoneDataSet();
-        p1.setNumber("+79996339336");
-        var p2 = new PhoneDataSet();
-        p2.setNumber("+79996339633");
-        aClient.setPhones(List.of(p1, p2));
+        HwCache<Long, Client> clientCache = new MyCache<>();
+        HwListener<Long, Client> clientListener = new HwListener<Long, Client>() {
+            @Override
+            public void notify(Long key, Client value, String action) {
+                log.info("notify() - info: action = {} for key = {}, value = {}", action, key, value);
+            }
+        };
+        clientCache.addListener(clientListener);
 
-        var clientId = dbServiceClient.save(aClient);
+        DBService<Client, Long> dbServiceClient = new DbServiceImpl<>(clientDao, clientCache);
+
+        var clientId = dbServiceClient.save(new Client("dbServiceClient", 17));
 
         Optional<Client> clientOptional = dbServiceClient.getById(clientId);
         clientOptional.ifPresentOrElse(
@@ -63,30 +68,53 @@ public class HomeWork {
                 () -> log.info("client was not created")
         );
 
-        clientOptional.map(Client::getAddress).ifPresentOrElse(
-                address -> log.info("created client address:{}", address),
-                () -> log.info("address was not created")
-        );
-
-        clientOptional.map(Client::getPhones).ifPresent(phones -> log.info("created client phones:{}", phones));
-
         Client persisted = clientOptional.orElseThrow();
-        persisted.setAge(30);
+        persisted.setAge(25);
         dbServiceClient.save(persisted);
 
         clientOptional = dbServiceClient.getById(clientId);
         clientOptional.ifPresentOrElse(
-                client -> log.info("updated client, name:{}, age:{}", client.getName(), client.getAge()),
+                client -> log.info("updated client, name:{}", client.getName()),
+                () -> log.info("client was not updated")
+        );
+
+        AddressDataSet address = new AddressDataSet("street", persisted);
+        persisted.setAddress(address);
+
+        List<PhoneDataSet> phones = List.of(new PhoneDataSet("phone1", persisted), new PhoneDataSet("phone2", persisted));
+        persisted.setPhones(phones);
+
+        dbServiceClient.save(persisted);
+
+        clientOptional = dbServiceClient.getById(clientId);
+        clientOptional.ifPresentOrElse(
+                client -> log.info("updated client, address:{}", client.getAddress()),
+                () -> log.info("client was not updated")
+        );
+
+        clientOptional = dbServiceClient.getById(clientId);
+        clientOptional.ifPresentOrElse(
+                client -> log.info("updated client, phones:{}", client.getPhones()),
                 () -> log.info("client was not updated")
         );
 
 // Работа со счетом
         Dao<Account, String> accountDao = new AccountDao(sessionManager);
-        var dbServiceAccount = new DbServiceImpl<>(accountDao);
+
+        HwCache<String, Account> accountCache = new MyCache<>();
+        HwListener<String, Account> accountListener = new HwListener<String, Account>() {
+            @Override
+            public void notify(String key, Account value, String action) {
+                log.info("notify() - info: action = {} for key = {}, value = {}", action, key, value);
+            }
+        };
+        accountCache.addListener(accountListener);
+
+        var dbServiceAccount = new DbServiceImpl<>(accountDao, accountCache);
 
         String accountId = UUID.randomUUID().toString();
 
-        dbServiceAccount.save(new Account(accountId, "dbServiceAccountType1", 11.11));
+        dbServiceAccount.save(new Account(accountId, "dbServiceAccountType", 17.78));
 
         Optional<Account> accountOptional = dbServiceAccount.getById(accountId);
         accountOptional.ifPresentOrElse(
@@ -94,7 +122,7 @@ public class HomeWork {
                 () -> log.info("account was not created")
         );
 
-        dbServiceAccount.save(new Account(accountId, "dbServiceAccountType2", 22.22));
+        dbServiceAccount.save(new Account(accountId, "dbServiceAccountTypeUpdated", 12.39));
 
         accountOptional = dbServiceAccount.getById(accountId);
         accountOptional.ifPresentOrElse(
