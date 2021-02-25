@@ -1,5 +1,7 @@
 package ru.otus.service.db;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.otus.sessionmanager.SessionManager;
 import ru.otus.dao.UserDao;
 import ru.otus.model.User;
@@ -11,15 +13,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class UserServiceImpl implements UserService {
 
-    private final UserDao dao;
+    @Autowired
+    private UserDao dao;
 
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
-
-    public UserServiceImpl(UserDao dao) {
-        this.dao = dao;
-    }
 
     @Override
     public Long save(User user) {

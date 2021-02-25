@@ -1,5 +1,9 @@
 package ru.otus.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import ru.otus.hibernate.sessionmanager.DatabaseSessionHibernate;
 import ru.otus.hibernate.sessionmanager.SessionManagerHibernate;
 import ru.otus.model.User;
@@ -13,9 +17,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class UserDaoImpl extends AbstractDao<User, Long> implements UserDao {
     private static final Logger log = LoggerFactory.getLogger(UserDaoImpl.class);
 
+    @Autowired
     public UserDaoImpl(SessionManagerHibernate sessionManager) {
         super(sessionManager);
     }
