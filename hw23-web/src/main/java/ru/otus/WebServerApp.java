@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.List;
 
 public final class WebServerApp {
 
@@ -29,7 +30,7 @@ public final class WebServerApp {
 
         SessionManagerHibernate sessionManager = DbHelper.buildSessionManager();
         UserService userService = new UserServiceImpl(new UserDaoImpl(sessionManager));
-        DbHelper.populateDb(userService);
+
         log.info("main() - info: db prepared");
 
         TemplateProcessor templateProcessor = new TemplateProcessorImpl(TEMPLATES_DIR);

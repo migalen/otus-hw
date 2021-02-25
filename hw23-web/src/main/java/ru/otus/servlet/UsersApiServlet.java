@@ -20,39 +20,31 @@ public class UsersApiServlet extends HttpServlet {
 
     private final UserService userService;
 
+    private static final String PARAM_LOGIN = "login";
+    private static final String PARAM_PASSWORD = "password";
+    private static final String PARAM_NAME = "name";
+
+
     public UsersApiServlet(UserService userService) {
         this.userService = userService;
     }
+    private static final Gson GSON = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<User> userList = userService.findAll();
         response.setContentType("application/html;charset=UTF-8");
         ServletOutputStream out = response.getOutputStream();
-        out.print(getHtmlTableUser(userList));
+        out.print((GSON.toJson(userList)));
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-        Map<String, String[]> params = request.getParameterMap();
-        User user = new User(null, params.get("name")[0], params.get("login")[0], params.get("password")[0]);
-        userService.save(user);
+        String name = request.getParameter(PARAM_NAME);
+        String login = request.getParameter(PARAM_LOGIN);
+        String password = request.getParameter(PARAM_PASSWORD);
+        userService.save(new User(name, login, password));
         response.setContentType("application/html;charset=UTF-8");
+        response.setStatus(201);
     }
-
-    protected String getHtmlTableUser(List<User> userList) throws IOException {
-        StringBuffer htmlTable = new StringBuffer();
-        htmlTable.append("<table>");
-        for (User u : userList) {
-            htmlTable.append("<tr>")
-                    .append("<td>").append(u.getId().toString()).append("</td>")
-                    .append("<td>").append(u.getName()).append("</td>")
-                    .append("<td>").append(u.getLogin()).append("</td>")
-                    .append("<td>").append(u.getPassword()).append("</td>")
-                    .append("</tr>");
-        }
-        htmlTable.append("</table>");
-        return String.valueOf(htmlTable);
-    }
-
 }

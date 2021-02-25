@@ -9,10 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class UsersServlet extends HttpServlet {
 
@@ -20,7 +17,6 @@ public class UsersServlet extends HttpServlet {
     private final TemplateProcessor templateProcessor;
 
     private static final String USERS_PAGE_TEMPLATE = "users.html";
-    private static final String TEMPLATE_ATTR_RANDOM_USER = "randomUser";
 
     public UsersServlet(TemplateProcessor templateProcessor, UserService userService) {
         this.templateProcessor = templateProcessor;
@@ -29,12 +25,7 @@ public class UsersServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse response) throws IOException {
-        Map<String, Object> paramsMap = new HashMap<>();
-        List<User> users = userService.findAll();
-        User randomUser = users.get(new Random(System.currentTimeMillis()).nextInt(users.size()));
-        paramsMap.put(TEMPLATE_ATTR_RANDOM_USER, users);
-
         response.setContentType("text/html");
-        response.getWriter().println(templateProcessor.getPage(USERS_PAGE_TEMPLATE, paramsMap));
+        response.getWriter().println(templateProcessor.getPage(USERS_PAGE_TEMPLATE, Collections.emptyMap()));
     }
 }

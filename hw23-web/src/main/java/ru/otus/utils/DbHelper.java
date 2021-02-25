@@ -34,22 +34,4 @@ public final class DbHelper {
         SessionFactory sessionFactory = HibernateUtils.buildSessionFactory(configuration, User.class);
         return new SessionManagerHibernate(sessionFactory);
     }
-
-    public static void populateDb(UserService userService) {
-        log.info("populateDb() - start");
-
-        if (userService.findAll().isEmpty()) {
-            List<User> users = List.of(
-                    new User(1L, "super_user_1", "login1", "super_password_1"),
-                    new User(2L, "super_user_2", "login2", "super_password_2"),
-                    new User(3L, "super_user_3", "login3", "super_password_3"),
-                    new User(4L, "super_user_4", "login4", "super_password_4"),
-                    new User(5L, "super_user_5", "login5", "super_password_5"),
-                    new User(6L, "Migal Ujin", "migal_en", "super_password")
-            );
-            users.forEach(userService::save);
-        }
-
-        log.info("populateDb() - end");
-    }
 }
