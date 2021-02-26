@@ -17,20 +17,26 @@ public final class DbHelper {
 
     private static final String HIBERNATE_CFG_FILE = "hibernate.cfg.xml";
 
-    private static final Logger log = LoggerFactory.getLogger(DbHelper.class);
-
     private DbHelper() {
     }
 
-    public static SessionManagerHibernate buildSessionManager() {
+    public static String getUrl() {
         Configuration configuration = new Configuration().configure(HIBERNATE_CFG_FILE);
+        return configuration.getProperty("hibernate.connection.url");
+    }
 
-        String dbUrl = configuration.getProperty("hibernate.connection.url");
-        String dbUserName = configuration.getProperty("hibernate.connection.username");
-        String dbPassword = configuration.getProperty("hibernate.connection.password");
+    public static String getUsername() {
+        Configuration configuration = new Configuration().configure(HIBERNATE_CFG_FILE);
+        return configuration.getProperty("hibernate.connection.username");
+    }
 
-        new MigrationsExecutorFlyway(dbUrl, dbUserName, dbPassword).executeMigrations();
+    public static String getPassword() {
+        Configuration configuration = new Configuration().configure(HIBERNATE_CFG_FILE);
+        return configuration.getProperty("hibernate.connection.password");
+    }
 
+        public static SessionManagerHibernate buildSessionManager() {
+        Configuration configuration = new Configuration().configure(HIBERNATE_CFG_FILE);
         SessionFactory sessionFactory = HibernateUtils.buildSessionFactory(configuration, User.class);
         return new SessionManagerHibernate(sessionFactory);
     }

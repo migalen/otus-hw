@@ -74,7 +74,9 @@ public class SimpleWebServer implements WebServer {
     private ServletContextHandler createServletContextHandler() {
         ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
         servletContextHandler.addServlet(new ServletHolder(new UsersServlet(templateProcessor, userService)), "/users");
-        servletContextHandler.addServlet(new ServletHolder(new UsersApiServlet(userService)), "/api/user/*");
+        UsersApiServlet usersApiServlet = new UsersApiServlet();
+        usersApiServlet.setUserService(userService);
+        servletContextHandler.addServlet(new ServletHolder(usersApiServlet), "/api/user/*");
         return servletContextHandler;
     }
 }

@@ -1,6 +1,7 @@
 package ru.otus;
 
 import ru.otus.dao.UserDaoImpl;
+import ru.otus.flyway.MigrationsExecutorFlyway;
 import ru.otus.hibernate.sessionmanager.SessionManagerHibernate;
 import ru.otus.processor.TemplateProcessor;
 import ru.otus.processor.TemplateProcessorImpl;
@@ -29,6 +30,8 @@ public final class WebServerApp {
         log.info("main() - start: args = {}", Arrays.toString(args));
 
         SessionManagerHibernate sessionManager = DbHelper.buildSessionManager();
+        new MigrationsExecutorFlyway(DbHelper.getUrl(), DbHelper.getUsername(), DbHelper.getPassword()).executeMigrations();
+
         UserService userService = new UserServiceImpl(new UserDaoImpl(sessionManager));
 
         log.info("main() - info: db prepared");

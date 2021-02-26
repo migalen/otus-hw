@@ -18,33 +18,34 @@ import java.util.Random;
 
 public class UsersApiServlet extends HttpServlet {
 
-    private final UserService userService;
+    private UserService userService;
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     private static final String PARAM_LOGIN = "login";
     private static final String PARAM_PASSWORD = "password";
     private static final String PARAM_NAME = "name";
 
-
-    public UsersApiServlet(UserService userService) {
-        this.userService = userService;
-    }
     private static final Gson GSON = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<User> userList = userService.findAll();
-        response.setContentType("application/html;charset=UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
         ServletOutputStream out = response.getOutputStream();
         out.print((GSON.toJson(userList)));
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String name = request.getParameter(PARAM_NAME);
         String login = request.getParameter(PARAM_LOGIN);
         String password = request.getParameter(PARAM_PASSWORD);
         userService.save(new User(name, login, password));
-        response.setContentType("application/html;charset=UTF-8");
         response.setStatus(201);
+
+        response.sendRedirect("/users");
     }
 }
