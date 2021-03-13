@@ -20,9 +20,7 @@ public class Main {
                 while (oddFlag) {
                     try {
                         lock.wait();
-                    } catch (InterruptedException e) {
-                        System.out.println(String.format("Error in printOddNumbers: %s", e));
-                    }
+                        } catch (InterruptedException e) {}
                 }
                 printNumber();
                 nextNumber();
@@ -37,9 +35,7 @@ public class Main {
                 while (!oddFlag) {
                     try {
                         lock.wait();
-                    } catch (InterruptedException e) {
-                        System.out.println(String.format("Error in printEvenNumbers: %s", e));
-                    }
+                    } catch (InterruptedException e) {}
                 }
                 printNumber();
                 nextNumber();
