@@ -16,30 +16,36 @@ public class Main {
 
     private void printOddNumbers() {
         synchronized (lock) {
-            while (number > 0) {
-                while (oddFlag) {
-                    try {
+            try {
+                while (number > 0) {
+                    while (oddFlag) {
                         lock.wait();
-                        } catch (InterruptedException e) {}
+                    }
+                    printNumber();
+                    nextNumber();
+                    lock.notifyAll();
                 }
-                printNumber();
-                nextNumber();
-                lock.notifyAll();
+            } catch (InterruptedException e) {
+                return;
             }
         }
     }
 
     private void printEvenNumbers() {
         synchronized (lock) {
-            while (number > 1) {
-                while (!oddFlag) {
-                    try {
+            try {
+                while (number > 1) {
+                    while (!oddFlag) {
+
                         lock.wait();
-                    } catch (InterruptedException e) {}
+
+                    }
+                    printNumber();
+                    nextNumber();
+                    lock.notifyAll();
                 }
-                printNumber();
-                nextNumber();
-                lock.notifyAll();
+            } catch (InterruptedException e) {
+                return;
             }
         }
     }
