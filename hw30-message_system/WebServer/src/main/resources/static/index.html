@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Users Management</title>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="/app.js"></script>
+  </head>
+  <body>
+    <noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript
+      being
+      enabled. Please enable
+      Javascript and reload this page!</h2></noscript>
+    <div id="main-content" class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <form class="form-inline">
+            <div class="form-group">
+              <button id="connect" class="btn btn-default" type="submit">Connect</button>
+              <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <form class="form-inline">
+            <h2>New User</h2>
+            <div class="form-group">
+              <label for="new-user-name">Name</label>
+              <input type="text" id="new-user-name" class="form-control" placeholder="enter user name ...">
+              <label for="new-user-login">Login</label>
+              <input type="text" id="new-user-login" class="form-control" placeholder="enter user login ...">
+              <label for="new-user-password">Password</label>
+              <input type="password" id="new-user-password" class="form-control" placeholder="enter user password ...">
+            </div>
+            <button id="send" class="btn btn-default" type="submit">Send</button>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <table id="user-list" class="table table-striped">
+            <thead>
+              <tr>
+                <th>Users</th>
+              </tr>
+            </thead>
+            <tbody id="user-line"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
