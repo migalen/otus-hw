@@ -1,0 +1,47 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: web-server-websocket-messaging
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/HW
+    username: migal_en
+    password: super_password
+    driver-class-name: org.postgresql.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      connection-timeout: 30000
+      minimum-idle: 10
+      maximum-pool-size: 10
+
+  jpa:
+    open-in-view: false
+    show-sql: true
+    database: POSTGRESQL
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL94Dialect
+        show_sql: false
+        hbm2ddl.auto: none
+        format_sql: true
+        use_sql_comments: true
+        temp.use_jdbc_metadata_defaults: false
+        default_schema: public
+    hibernate:
+      ddl-auto: none
+      connection:
+        provider_class:
+          hibernate: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+
+  flyway:
+    enabled: true
+
+app:
+  frontend_service_client_name: frontendService
+  database_service_client_name: databaseService
+
+logging:
+  level:
+    root: INFO
