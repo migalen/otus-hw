@@ -1,0 +1,32 @@
+Starting pid: 3020@DESKTOP-4JC2NF9
+GC name:Copy
+GC name:MarkSweepCompact
+new size:500000
+Start time:1048 Name:Copy, action:end of minor GC, gcCause:Allocation Failure(38 ms)
+Start time:20618 Name:Copy, action:end of minor GC, gcCause:Allocation Failure(33 ms)
+Start time:53471 Name:Copy, action:end of minor GC, gcCause:Allocation Failure(49 ms)
+Start time:107952 Name:Copy, action:end of minor GC, gcCause:Allocation Failure(46 ms)
+Start time:304804 Name:Copy, action:end of minor GC, gcCause:Allocation Failure(1 ms)
+Start time:304805 Name:MarkSweepCompact, action:end of major GC, gcCause:Allocation Failure(137 ms)
+Start time:457699 Name:Copy, action:end of minor GC, gcCause:Allocation Failure(56 ms)
+Start time:640553 Name:Copy, action:end of minor GC, gcCause:Allocation Failure(0 ms)
+Start time:640553 Name:MarkSweepCompact, action:end of major GC, gcCause:Allocation Failure(126 ms)
+Start time:1096985 Name:MarkSweepCompact, action:end of major GC, gcCause:Allocation Failure(156 ms)
+Start time:1097143 Name:MarkSweepCompact, action:end of major GC, gcCause:Allocation Failure(158 ms)
+Start time:1097301 Name:MarkSweepCompact, action:end of major GC, gcCause:Allocation Failure(162 ms)
+Execution time:      1096944 (ms)
+Total cleaning count:      12
+Average cleaning time:      80 (ms)
+Max cleaning time:      1096947 (ms)
+Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+	at java.base/java.util.Arrays.copyOf(Arrays.java:3511)
+	at java.base/java.util.Arrays.copyOf(Arrays.java:3480)
+	at java.base/java.util.ArrayList.grow(ArrayList.java:237)
+	at java.base/java.util.ArrayList.grow(ArrayList.java:244)
+	at java.base/java.util.ArrayList.add(ArrayList.java:454)
+	at java.base/java.util.ArrayList.add(ArrayList.java:467)
+	at ru.otus.Benchmark.testLeak(Benchmark.java:46)
+	at ru.otus.Benchmark.run(Benchmark.java:28)
+	at ru.otus.GcDemo.main(GcDemo.java:36)
+
+Process finished with exit code 1

@@ -1,75 +1,33 @@
-﻿### VM options: -Xms512m -Xmx512m -XX:+UseSerialGC
+﻿### VM options: -Xms64m -Xmx64m -XX:+UseSerialGC
 
-Для size = 5 * 1000 (loopCounter = 20000).
+Execution time:      1096944 (ms)
 
-Worked time: 214 216 ms
+Total cleaning count:      12
 
-Для size = 500 * 1000 (loopCounter = 10000)
+Average cleaning time:      80 (ms)
 
-Execution time: 153 631 ms
+Max cleaning time:      1096947 (ms)
 
-Total cleaning count: 559
+### VM options: -Xms64m -Xmx64m -XX:+UseParallelGC
 
-Average cleaning time: 10 (ms)
+Execution time:      531900 (ms)
 
-Max cleaning time: 29 (ms)
+Total cleaning count:      11
 
-### VM options: -Xms512m -Xmx512m -XX:+UseParallelGC
+Average cleaning time:      82 (ms)
 
-Небольшой размер рабочего листа size = 5 * 1000 (loopCounter = 20000)
+Max cleaning time:      531909 (ms)
 
-Worked time: 214 113 ms
+### VM options: -Xms64m -Xmx64m -XX:+UseG1GC
 
-Большой размер рабочего листа size = 500 * 1000 (loopCounter = 10000)
+Execution time:      1317460 (ms)
 
-Execution time: 142 101 (ms)
+Total cleaning count:      63
 
-Total cleaning count: 509
+Average cleaning time:      24 (ms)
 
-Average cleaning time: 17 (ms)
-
-Max cleaning time: 46 (ms)
-
-### VM options: -Xms512m -Xmx512m -XX:+UseG1GC
-
-Небольшой размер рабочего листа size = 5 * 1000 (loopCounter = 20000)
-
-Worked time: 238 743 ms
-
-Большой размер рабочего листа size = 500 * 1000 (loopCounter = 10000)
-
-Execution time: 171 245 (ms)
-
-Total cleaning count: 253
-
-Average cleaning time: 3 (ms) 
-
-Max cleaning time: 13 (ms)
+Max cleaning time:      1317464 (ms)
 
 ### Делаем выводы:
 
-Сравнение результатов при малых нагрузках (для size = 5 * 1000 (loopCounter = 20000))
- 
- Результаты работы GC не сильно отличаются.
- 
- SerialGC: 214 216 ms 
- 
- ParallelGC: 214 113 ms
- 
- G1GC: 238 743 ms 
- 
- Лучше всех показал себя ParallelGC, но он также дает значительную нагрузку на процессор (до 16%).
-
-Сравнение результатов при высоких нагрузках (для size = 5 * 1000 (loopCounter = 20000))
- 
- GC показали уже значительную разницу во времени выполнения программы.
- 
- SerialGC: 153 631 ms 
-
- ParallelGC: 142 101 ms 
- 
- G1GC: 171 245 ms 
- 
- ParallelGC показал лучшие результаты.
- 
- Поэтому для данной программы на тестируемом ПК лучшим выбором будет ParallelGC.
+G1 работает дольше. Сборки у G1 осуществляются часто и равномерно, о чем говорит количество запусков GC. G1 делает кратковременные сборки мусора и позволяет приложению дольше функционировать (до падения), также меньше времени занимают сборки мусора. Parallel, в начале работы приложения, работал эффективно, так же как и G1. Но с увеличением дефицита памяти, GC работает все дольше и дольше. G1 работает эффективнее чем Parallel, позволяя приложению работать с хорошей производительностью за счет того что тратится меньше времени на сборки мусора. Для данной задачи на данном ПК желательно по-умолчанию использовать именно G1.
